@@ -1,7 +1,7 @@
 class MultiAuth::Engine
   def initialize(provider : String, redirect_uri : String)
     provider_class = case provider
-                     when "google" then Provider::Google
+                     # when "google" then Provider::Google
                      when "github" then Provider::Github
                      else               raise "Provider #{provider} not implemented"
                      end
@@ -16,7 +16,7 @@ class MultiAuth::Engine
     provider.authorize_uri(scope)
   end
 
-  def user(params : Enumerable({String, String}))
+  def user(params : Enumerable({String, String})) : User
     provider.user(params.to_h)
   end
 end

@@ -4,7 +4,7 @@ require "./multi_auth/**"
 module MultiAuth
   @@configuration = Hash(String, Array(String)).new
 
-  def self.init(provider, redirect_uri)
+  def self.make(provider, redirect_uri)
     MultiAuth::Engine.new(provider, redirect_uri)
   end
 
