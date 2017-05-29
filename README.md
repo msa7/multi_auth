@@ -5,6 +5,7 @@
 MultiAuth is a library that standardizes multi-provider authentication for web applications. Currently supported providers:
 
 - Github
+- Facebook
 
 ## Installation
 
@@ -23,7 +24,7 @@ dependencies:
 ```crystal
   require "multi_auth"
 
-  MultiAuth.config("github", ENV['GITHUB_ID'], ENV['GITHUB_SECRET']) # configuration
+  MultiAuth.config("github", ENV['ID'], ENV['SECRET']) # configuration
 
   multi_auth = MultiAuth.make(provider, redirect_uri) # initialize engine
   multi_auth.authorize_uri  # URL to provider authentication dialog
