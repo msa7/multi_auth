@@ -1,4 +1,5 @@
 require "oauth2"
+require "./crystal_std_patch/**"
 require "./multi_auth/**"
 
 module MultiAuth

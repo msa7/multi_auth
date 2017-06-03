@@ -4,8 +4,9 @@
 
 MultiAuth is a library that standardizes multi-provider authentication for web applications. Currently supported providers:
 
-- Github
-- Facebook
+- Github.com
+- Facebook.com
+- Vk.com
 
 ## Installation
 

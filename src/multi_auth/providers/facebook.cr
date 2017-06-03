@@ -52,10 +52,6 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
     fb_user
   end
 
-  private def api(access_token)
-    api
-  end
-
   private def client
     OAuth2::Client.new(
       "www.facebook.com",

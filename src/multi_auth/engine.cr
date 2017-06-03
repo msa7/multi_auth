@@ -1,10 +1,12 @@
 class MultiAuth::Engine
   def initialize(provider : String, redirect_uri : String)
     provider_class = case provider
-                     # when "google" then Provider::Google
+                     # when "google"  then Provider::Google
                      when "github"   then Provider::Github
                      when "facebook" then Provider::Facebook
-                     else                 raise "Provider #{provider} not implemented"
+                     when "vk"       then Provider::Vk
+                     else
+                       raise "Provider #{provider} not implemented"
                      end
 
     client_id, client_secret = MultiAuth.configuration[provider]
