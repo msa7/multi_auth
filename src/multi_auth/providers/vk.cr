@@ -1,6 +1,6 @@
 class MultiAuth::Provider::Vk < MultiAuth::Provider
   def authorize_uri(scope = nil)
-    @scope = scope || "email"
+    @scope = "email"
     client.get_authorize_uri(@scope)
   end
 

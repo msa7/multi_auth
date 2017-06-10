@@ -1,5 +1,5 @@
 # TODO remove hack after release
-# https://github.com/crystal-lang/crystal/commit/31099237c87a3851c8cb2a78df5ff00bac7364c6
+# https://github.com/crystal-lang/crystal/commit/a3b77d32f1896e996230fbdd07328761b27f6000
 
 require "secure_random"
 require "openssl/hmac"

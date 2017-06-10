@@ -1,7 +1,7 @@
 class MultiAuth::Engine
   def initialize(provider : String, redirect_uri : String)
     provider_class = case provider
-                     # when "google"  then Provider::Google
+                     when "google"   then Provider::Google
                      when "github"   then Provider::Github
                      when "facebook" then Provider::Facebook
                      when "vk"       then Provider::Vk

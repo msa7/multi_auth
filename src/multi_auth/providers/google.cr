@@ -1,52 +1,104 @@
-# class MultiAuth::Provider::Google < MultiAuth::Provider
-#   def authorize_uri(scope = nil)
-#     oauth2_client = OAuth2::Client.new(
-#       "accounts.google.com",
-#       client_id,
-#       client_secret,
-#       authorize_uri: "/o/oauth2/v2/auth",
-#       redirect_uri: redirect_uri
-#     )
+class MultiAuth::Provider::Google < MultiAuth::Provider
+  def authorize_uri(scope = nil)
+    defaults = [
+      "https://www.googleapis.com/auth/user.emails.read",
+      "https://www.googleapis.com/auth/user.phonenumbers.read",
+      "https://www.googleapis.com/auth/user.addresses.read",
+      "https://www.googleapis.com/auth/plus.login",
+      "https://www.googleapis.com/auth/contacts.readonly",
+    ]
 
-#     oauth2_client.get_authorize_uri("profile email openid")
-#   end
+    scope ||= defaults.join(" ")
 
-#   def user(params : Hash(String, String))
-#     access_token = get_access_token(params["code"])
-#     p "access_token #{access_token}"
-#     nil
+    client = OAuth2::Client.new(
+      "accounts.google.com",
+      client_id,
+      client_secret,
+      authorize_uri: "/o/oauth2/v2/auth",
+      redirect_uri: redirect_uri
+    )
 
-#     # code=4/Eyr6K3sxsLPiN28Z9SPkAqdJRSJhOcV5N8TKu8qBAvc
-#     # &authuser=0
-#     # &session_state=e55994130393dbe0607b7c1dbc62fd716e806b75..487e
-#     # &prompt=consent
+    client.get_authorize_uri(scope)
+  end
 
-#     # access_token = OAuth2::AccessToken::Bearer.new(params_hash["code"], 172_800)
+  def user(params : Hash(String, String))
+    client = OAuth2::Client.new(
+      "www.googleapis.com",
+      client_id,
+      client_secret,
+      token_uri: "/oauth2/v4/token",
+      redirect_uri: redirect_uri
+    )
 
-#     # client = HTTP::Client.new("accounts.google.com", tls: true)
+    access_token = client.get_access_token_using_authorization_code(params["code"])
 
-#     # # Prepare it for using OAuth2 authentication
-#     # access_token.authenticate(client)
+    # https://developers.google.com/people/api/rest/v1/people/get
+    # enable Google People API
 
-#     # # Execute requests as usual: they will be authenticated
-#     # client.get("/some_path")
+    api = HTTP::Client.new("people.googleapis.com", tls: true)
+    access_token.authenticate(api)
 
-#     # User.new(params)
-#   end
+    fields = [
+      "person.addresses",
+      "person.biographies",
+      "person.bragging_rights",
+      "person.cover_photos",
+      "person.email_addresses",
+      "person.im_clients",
+      "person.interests",
+      "person.names",
+      "person.nicknames",
+      "person.phone_numbers",
+      "person.photos",
+      "person.urls",
+    ].join(",")
 
-#   # def raw_info
-#   # @raw_info ||= access_token.get('https://www.googleapis.com/plus/v1/people/me/openIdConnect').parsed
-#   # end
+    raw_json = api.get("/v1/people/me?requestMask.includeField=#{fields}").body
 
-#   private def get_access_token(authorization_code)
-#     oauth2_client = OAuth2::Client.new(
-#       "www.googleapis.com",
-#       client_id,
-#       client_secret,
-#       token_uri: "/oauth2/v4/token",
-#       redirect_uri: redirect_uri
-#     )
+    build_user(raw_json, access_token)
+  end
 
-#     oauth2_client.get_access_token_using_authorization_code(authorization_code)
-#   end
-# end
+  private def primary(field)
+    primary = primary?(field)
+    raise "No primary in #{json[field]}" unless primary
+    primary
+  end
+
+  private def primary?(field)
+    json[field].each do |item|
+      return item if item["metadata"]["primary"].as_bool?
+    end
+    nil
+  end
+
+  private def json
+    @json.as(JSON::Any)
+  end
+
+  private def build_user(raw_json, access_token)
+    @json = JSON.parse(raw_json)
+
+    name = primary("names")
+    user = User.new("github", json["resourceName"].as_s, name["displayName"].as_s, raw_json)
+    user.access_token = access_token
+
+    user.first_name = name["givenName"].as_s?
+    user.last_name = name["familyName"].as_s?
+
+    user.nickname = primary("nicknames")["value"].as_s if primary?("nicknames")
+    user.image = primary("photos")["url"].as_s if primary?("photos")
+    user.location = primary("addresses")["formattedValue"].as_s if primary?("addresses")
+    user.email = primary("emailAddresses")["value"].as_s if primary?("emailAddresses")
+    user.phone = primary("phoneNumbers")["canonicalForm"].as_s if primary?("phoneNumbers")
+    user.description = primary("biographies")["value"].as_s if primary?("biographies")
+
+    json["urls"].each do |url|
+      urls = {} of String => String
+      urls[url["type"].as_s] = url["value"].as_s
+
+      user.urls = urls
+    end
+
+    user
+  end
+end
