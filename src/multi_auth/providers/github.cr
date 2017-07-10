@@ -31,7 +31,7 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
     JSON.mapping(
       id: {type: String, converter: String::RawConverter},
       name: String,
-      email: String,
+      email: String?,
       login: String,
       location: String?,
       bio: String?,
