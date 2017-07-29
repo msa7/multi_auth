@@ -7,7 +7,13 @@ class MultiAuth::Provider::Vk < MultiAuth::Provider
   def user(params : Hash(String, String))
     vk_user = fetch_vk_user(params["code"])
 
-    user = User.new("vk", vk_user.id, vk_user.name, vk_user.raw_json.not_nil!)
+    user = User.new(
+      "vk",
+      vk_user.id,
+      vk_user.name,
+      vk_user.raw_json.not_nil!,
+      vk_user.access_token.not_nil!
+    )
 
     user.email = vk_user.email
     user.first_name = vk_user.first_name
@@ -16,7 +22,6 @@ class MultiAuth::Provider::Vk < MultiAuth::Provider
     user.description = vk_user.about
     user.image = vk_user.photo_max_orig
     user.phone = vk_user.mobile_phone || vk_user.home_phone
-    user.access_token = vk_user.access_token
 
     location = [] of String
     location << vk_user.city.not_nil!.title if vk_user.city

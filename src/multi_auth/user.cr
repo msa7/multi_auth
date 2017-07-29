@@ -1,11 +1,12 @@
 class MultiAuth::User
-  def initialize(@provider, @uid, @name, @raw_json)
+  def initialize(@provider, @uid, @name, @raw_json, @access_token)
   end
 
   getter provider : String
   getter uid : String
   getter name : String
   getter raw_json : String
+  getter access_token : OAuth2::AccessToken
 
   property email : String?
   property nickname : String?
@@ -16,5 +17,4 @@ class MultiAuth::User
   property image : String?
   property phone : String?
   property urls : Hash(String, String)?
-  property access_token : OAuth2::AccessToken?
 end

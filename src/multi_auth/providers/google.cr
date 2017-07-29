@@ -79,8 +79,14 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     @json = JSON.parse(raw_json)
 
     name = primary("names")
-    user = User.new("github", json["resourceName"].as_s, name["displayName"].as_s, raw_json)
-    user.access_token = access_token
+
+    user = User.new(
+      "github",
+      json["resourceName"].as_s,
+      name["displayName"].as_s,
+      raw_json,
+      access_token
+    )
 
     user.first_name = name["givenName"].as_s?
     user.last_name = name["familyName"].as_s?

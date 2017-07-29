@@ -7,13 +7,19 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
   def user(params : Hash(String, String))
     fb_user = fetch_fb_user(params["code"])
 
-    user = User.new("facebook", fb_user.id, fb_user.name, fb_user.raw_json.as(String))
+    user = User.new(
+      "facebook",
+      fb_user.id,
+      fb_user.name,
+      fb_user.raw_json.as(String),
+      fb_user.access_token.not_nil!
+    )
+
     user.email = fb_user.email
     user.first_name = fb_user.first_name
     user.last_name = fb_user.last_name
     user.location = fb_user.location
     user.description = fb_user.about
-    user.access_token = fb_user.access_token
 
     urls = {} of String => String
     urls["web"] = fb_user.website.as(String) if fb_user.website

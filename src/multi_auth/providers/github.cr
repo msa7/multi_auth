@@ -7,14 +7,19 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
   def user(params : Hash(String, String))
     gh_user = fetch_gh_user(params["code"])
 
-    user = User.new("github", gh_user.id, gh_user.name, gh_user.raw_json.as(String))
+    user = User.new(
+      "github",
+      gh_user.id,
+      gh_user.name,
+      gh_user.raw_json.as(String),
+      gh_user.access_token.not_nil!
+    )
 
     user.email = gh_user.email
     user.nickname = gh_user.login
     user.location = gh_user.location
     user.description = gh_user.bio
     user.image = gh_user.avatar_url
-    user.access_token = gh_user.access_token
 
     urls = {} of String => String
     urls["blog"] = gh_user.blog.as(String) if gh_user.blog
