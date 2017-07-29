@@ -77,6 +77,7 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
 
   private def build_user(raw_json, access_token)
     @json = JSON.parse(raw_json)
+    raise json["error"]["message"].as_s if json["error"]?
 
     name = primary("names")
 

@@ -31,37 +31,32 @@ describe MultiAuth::Provider::Google do
       user.email.should eq("smkrbr@gmail.com")
     end
   end
-end
 
-context "facebook" do
-  it "generates authorize_uri" do
-    uri = MultiAuth.make("github", "/callback").authorize_uri
-    uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=&response_type=code&scope=user%3Aemail")
-  end
+  context "when API disabled" do
+    it "shows error" do
+      WebMock.wrap do
+        WebMock.stub(:post, "https://www.googleapis.com/oauth2/v4/token")
+               .with(
+          body: "client_id=google_id&client_secret=google_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
+          headers: {"Accept" => "application/json", "Content-Length" => "111", "Host" => "www.googleapis.com", "Content-type" => "application/x-www-form-urlencoded"}
+        )
+               .to_return(
+          body: %({
+              "access_token" : "1111",
+              "token_type" : "Bearer",
+              "expires_in" : 899,
+              "refresh_token" : null,
+              "scope" : "user"
+            })
+        )
 
-  it "fetch user" do
-    WebMock.wrap do
-      WebMock.stub(:post, "https://github.com/login/oauth/access_token")
-             .with(
-        body: "client_id=github_id&client_secret=github_secret&redirect_uri=&grant_type=authorization_code&code=123",
-        headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"}
-      )
-             .to_return(
-        body: %({
-            "access_token" : "1111",
-            "token_type" : "Bearer",
-            "expires_in" : 899,
-            "refresh_token" : null,
-            "scope" : "user"
-          })
-      )
+        WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?requestMask.includeField=person.addresses,person.biographies,person.bragging_rights,person.cover_photos,person.email_addresses,person.im_clients,person.interests,person.names,person.nicknames,person.phone_numbers,person.photos,person.urls")
+               .to_return(body: File.read("spec/support/google_api_disabled.json"))
 
-      WebMock.stub(:get, "https://api.github.com/user")
-             .to_return(body: File.read("spec/support/github.json"))
-
-      user = MultiAuth.make("github", "/callback").user({"code" => "123"}).as(MultiAuth::User)
-
-      user.email.should eq("hi@msa7.ru")
+        expect_raises do
+          MultiAuth.make("google", "/callback").user({"code" => "123"})
+        end
+      end
     end
   end
 end
