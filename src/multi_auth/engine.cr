@@ -5,12 +5,13 @@ class MultiAuth::Engine
                      when "github"   then Provider::Github
                      when "facebook" then Provider::Facebook
                      when "vk"       then Provider::Vk
+                     when "twitter"  then Provider::Twitter
                      else
                        raise "Provider #{provider} not implemented"
                      end
 
-    client_id, client_secret = MultiAuth.configuration[provider]
-    @provider = provider_class.new(redirect_uri, client_id, client_secret)
+    key, secret = MultiAuth.configuration[provider]
+    @provider = provider_class.new(redirect_uri, key, secret)
   end
 
   getter provider : Provider

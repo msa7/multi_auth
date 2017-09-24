@@ -6,7 +6,7 @@ class MultiAuth::User
   getter uid : String
   getter name : String
   getter raw_json : String
-  getter access_token : OAuth2::AccessToken
+  getter access_token : OAuth::AccessToken | OAuth2::AccessToken
 
   property email : String?
   property nickname : String?

@@ -1,3 +1,4 @@
+require "oauth"
 require "oauth2"
 require "./multi_auth/**"
 
@@ -12,7 +13,7 @@ module MultiAuth
     @@configuration
   end
 
-  def self.config(provider, client_id, client_secret)
-    @@configuration[provider] = [client_id, client_secret]
+  def self.config(provider, key, secret)
+    @@configuration[provider] = [key, secret]
   end
 end

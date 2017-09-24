@@ -1,4 +1,4 @@
-class MultiAuth::Provider::Vk < MultiAuth::Provider
+class MultiAuth::Provider::Vk < MultiAuth::OAuth2Provider
   def authorize_uri(scope = nil)
     @scope = "email"
     client.get_authorize_uri(@scope)

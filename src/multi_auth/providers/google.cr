@@ -1,4 +1,4 @@
-class MultiAuth::Provider::Google < MultiAuth::Provider
+class MultiAuth::Provider::Google < MultiAuth::OAuth2Provider
   def authorize_uri(scope = nil)
     defaults = [
       "https://www.googleapis.com/auth/user.emails.read",
