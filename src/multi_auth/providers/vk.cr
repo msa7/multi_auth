@@ -1,4 +1,4 @@
-class MultiAuth::Provider::Vk < MultiAuth::OAuth2Provider
+class MultiAuth::Provider::Vk < MultiAuth::Provider
   def authorize_uri(scope = nil)
     @scope = "email"
     client.get_authorize_uri(@scope)
@@ -95,8 +95,8 @@ class MultiAuth::Provider::Vk < MultiAuth::OAuth2Provider
   private def client
     OAuth2::Client.new(
       "oauth.vk.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       redirect_uri: redirect_uri,
       authorize_uri: "/authorize",
       token_uri: "/access_token"

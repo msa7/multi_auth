@@ -1,4 +1,4 @@
-class MultiAuth::Provider::Github < MultiAuth::OAuth2Provider
+class MultiAuth::Provider::Github < MultiAuth::Provider
   def authorize_uri(scope = nil)
     scope ||= "user:email"
     client.get_authorize_uri(scope)
@@ -62,8 +62,8 @@ class MultiAuth::Provider::Github < MultiAuth::OAuth2Provider
   private def client
     OAuth2::Client.new(
       "github.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       authorize_uri: "/login/oauth/authorize",
       token_uri: "/login/oauth/access_token"
     )

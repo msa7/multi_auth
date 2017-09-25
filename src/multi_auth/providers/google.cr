@@ -1,4 +1,4 @@
-class MultiAuth::Provider::Google < MultiAuth::OAuth2Provider
+class MultiAuth::Provider::Google < MultiAuth::Provider
   def authorize_uri(scope = nil)
     defaults = [
       "https://www.googleapis.com/auth/user.emails.read",
@@ -12,8 +12,8 @@ class MultiAuth::Provider::Google < MultiAuth::OAuth2Provider
 
     client = OAuth2::Client.new(
       "accounts.google.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       authorize_uri: "/o/oauth2/v2/auth",
       redirect_uri: redirect_uri
     )
@@ -24,8 +24,8 @@ class MultiAuth::Provider::Google < MultiAuth::OAuth2Provider
   def user(params : Hash(String, String))
     client = OAuth2::Client.new(
       "www.googleapis.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       token_uri: "/oauth2/v4/token",
       redirect_uri: redirect_uri
     )

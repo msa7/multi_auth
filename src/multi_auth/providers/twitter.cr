@@ -1,7 +1,7 @@
-class MultiAuth::Provider::Twitter < MultiAuth::OAuthProvider
+class MultiAuth::Provider::Twitter < MultiAuth::Provider
   def authorize_uri(scope = nil)
-    request_token = consumer.get_request_token(oauth_callback)
-    consumer.get_authorize_uri(request_token, oauth_callback)
+    request_token = consumer.get_request_token(redirect_uri)
+    consumer.get_authorize_uri(request_token, redirect_uri)
   end
 
   def user(params : Hash(String, String))
@@ -46,7 +46,7 @@ class MultiAuth::Provider::Twitter < MultiAuth::OAuthProvider
     access_token = consumer.get_access_token(request_token, oauth_verifier)
 
     client = HTTP::Client.new("api.twitter.com", tls: true)
-    access_token.authenticate(client, consumer_key, consumer_secret)
+    access_token.authenticate(client, key, secret)
 
     raw_json = client.get("/1.1/account/verify_credentials.json?include_email=true").body
 
@@ -57,6 +57,6 @@ class MultiAuth::Provider::Twitter < MultiAuth::OAuthProvider
   end
 
   private def consumer
-    @consumer ||= OAuth::Consumer.new("api.twitter.com", consumer_key, consumer_secret)
+    @consumer ||= OAuth::Consumer.new("api.twitter.com", key, secret)
   end
 end

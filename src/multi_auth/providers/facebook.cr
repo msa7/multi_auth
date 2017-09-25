@@ -1,4 +1,4 @@
-class MultiAuth::Provider::Facebook < MultiAuth::OAuth2Provider
+class MultiAuth::Provider::Facebook < MultiAuth::Provider
   def authorize_uri(scope = nil)
     scope ||= "email"
     client.get_authorize_uri(scope)
@@ -62,8 +62,8 @@ class MultiAuth::Provider::Facebook < MultiAuth::OAuth2Provider
   private def client
     OAuth2::Client.new(
       "www.facebook.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       redirect_uri: redirect_uri,
       authorize_uri: "/v2.9/dialog/oauth",
     )
@@ -72,8 +72,8 @@ class MultiAuth::Provider::Facebook < MultiAuth::OAuth2Provider
   private def token_client
     OAuth2::Client.new(
       "graph.facebook.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       redirect_uri: redirect_uri,
       token_uri: "/v2.9/oauth/access_token"
     )
