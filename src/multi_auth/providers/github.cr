@@ -62,8 +62,8 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
   private def client
     OAuth2::Client.new(
       "github.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       authorize_uri: "/login/oauth/authorize",
       token_uri: "/login/oauth/access_token"
     )

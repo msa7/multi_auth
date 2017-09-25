@@ -1,11 +1,11 @@
 abstract class MultiAuth::Provider
   getter redirect_uri : String
-  getter client_id : String
-  getter client_secret : String
-
-  def initialize(@redirect_uri : String, @client_id : String, @client_secret : String)
-  end
+  getter key : String
+  getter secret : String
 
   abstract def authorize_uri(scope = nil)
   abstract def user(params : Hash(String, String))
+
+  def initialize(@redirect_uri : String, @key : String, @secret : String)
+  end
 end

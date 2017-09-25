@@ -62,8 +62,8 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
   private def client
     OAuth2::Client.new(
       "www.facebook.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       redirect_uri: redirect_uri,
       authorize_uri: "/v2.9/dialog/oauth",
     )
@@ -72,8 +72,8 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
   private def token_client
     OAuth2::Client.new(
       "graph.facebook.com",
-      client_id,
-      client_secret,
+      key,
+      secret,
       redirect_uri: redirect_uri,
       token_uri: "/v2.9/oauth/access_token"
     )
