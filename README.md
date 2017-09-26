@@ -8,6 +8,7 @@ MultiAuth is a library that standardizes multi-provider authentication for web a
 - Facebook.com
 - Vk.com
 - Google.com, [setup google](https://github.com/msa7/multi_auth/blob/master/setup.md#google)
+- Twitter.com
 
 ## Installation
 
@@ -71,3 +72,4 @@ end
 ## Contributors
 
 - [Sergey Makridenkov](https://github.com/msa7) - creator, maintainer
+- [Vitalii Elenhaupt](https://github.com/veelenga) - contributor
