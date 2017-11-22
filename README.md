@@ -61,6 +61,54 @@ get "/multi_auth/:provider/callback" do |env|
 end
 ```
 
+### Lucky integration example
+
+Instructions for using with [Lucky Framework](https://github.com/luckyframework/lucky).
+
+First, set up MultiAuth in a config file:
+
+```crystal
+# config/multi_auth_handler.cr
+require "multi_auth"
+
+class MultiAuthHandler
+  MultiAuth.config("facebook", "clientID", "secretKey")
+
+  getter facebook
+
+  def self.facebook
+    @@facebook ||= MultiAuth.make("facebook", "http://localhost:3000/oauth/facebook/callback")
+  end
+
+  def self.user(provider : Symbol, params : Enumerable({String, String}))
+    if provider == :facebook
+      user = facebook.user(params)
+    else
+      raise "provider #{provider} not found."
+    end
+  end
+end
+```
+
+Then, create actions to handle auth flow.
+
+```crystal
+# src/actions/oauth/facebook.cr
+class OAuth::Facebook < BrowserAction
+  get "/oauth/:provider" do
+    redirect to: MultiAuthHandler.facebook.authorize_uri
+  end
+end
+
+# src/actions/oauth/facebook/callback.cr
+class OAuth::Facebook::Callback < BrowserAction
+  get "/oauth/facebook/callback" do
+    user = MultiAuthHandler.user(:facebook, request.query_params)
+    render_text user.email
+  end
+end
+```
+
 ## Contributing
 
 1. Fork it ( https://github.com/msa7/multi_auth/fork )
