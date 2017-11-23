@@ -67,44 +67,64 @@ Instructions for using with [Lucky Framework](https://github.com/luckyframework/
 
 First, set up MultiAuth in a config file:
 
+
+```crystal
+# config/app.cr
+class App
+  URL = "http://localhost:3000"
+end
+```
+
 ```crystal
 # config/multi_auth_handler.cr
 require "multi_auth"
 
 class MultiAuthHandler
-  MultiAuth.config("facebook", "clientID", "secretKey")
+  ALLOWED_PROVIDERS = %w[facebook google]
+  MultiAuth.config("facebook", "facebookClientID", "facebookSecretKey")
+  MultiAuth.config("google", "googleClientID", "googleSecretKey")
 
-  getter facebook
-
-  def self.facebook
-    @@facebook ||= MultiAuth.make("facebook", "http://localhost:3000/oauth/facebook/callback")
+  def self.authorize_uri(provider : String)
+    MultiAuth.make(provider, "#{App::URL}/oauth/#{provider}/callback").authorize_uri
   end
 
-  def self.user(provider : Symbol, params : Enumerable({String, String}))
-    if provider == :facebook
-      user = facebook.user(params)
+  def self.user(provider : String, params : Enumerable({String, String}))
+    if ALLOWED_PROVIDERS.includes?(provider)
+      MultiAuth.make(provider, "#{App::URL}/oauth/#{provider}/callback")
     else
-      raise "provider #{provider} not found."
+      raise "provider '#{provider}' not found."
     end
   end
 end
 ```
 
-Then, create actions to handle auth flow.
+Then, create an action to begin the oauth flow.
 
 ```crystal
-# src/actions/oauth/facebook.cr
-class OAuth::Facebook < BrowserAction
+# src/actions/oauth/handler.cr
+class OAuth::Handler < BrowserAction
   get "/oauth/:provider" do
-    redirect to: MultiAuthHandler.facebook.authorize_uri
+    if ALLOWED_PROVIDERS.includes?(provider)
+      redirect to: MultiAuthHandler.authorize_uri(provider)
+    else
+      json({ error: "provider #{provider} not supported" }, status: 400)
+    end
   end
 end
+```
 
-# src/actions/oauth/facebook/callback.cr
-class OAuth::Facebook::Callback < BrowserAction
-  get "/oauth/facebook/callback" do
-    user = MultiAuthHandler.user(:facebook, request.query_params)
-    render_text user.email
+And the provider callback.
+
+```crystal
+# src/actions/oauth/handler/callback.cr
+class OAuth::Handler::Callback < BrowserAction
+  get "/oauth/:provider/callback" do
+    if ALLOWED_PROVIDERS.includes?(provider)
+      user = MultiAuthHandler.user(provider, request.query_params)
+      render_text user.email
+    else
+      json({ error: "provider #{provider} not supported" }, status: 400)
+    end
   end
 end
 ```
