@@ -39,21 +39,21 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     access_token.authenticate(api)
 
     fields = [
-      "person.addresses",
-      "person.biographies",
-      "person.bragging_rights",
-      "person.cover_photos",
-      "person.email_addresses",
-      "person.im_clients",
-      "person.interests",
-      "person.names",
-      "person.nicknames",
-      "person.phone_numbers",
-      "person.photos",
-      "person.urls",
+      "addresses",
+      "biographies",
+      "bragging_rights",
+      "cover_photos",
+      "email_addresses",
+      "im_clients",
+      "interests",
+      "names",
+      "nicknames",
+      "phone_numbers",
+      "photos",
+      "urls",
     ].join(",")
 
-    raw_json = api.get("/v1/people/me?requestMask.includeField=#{fields}").body
+    raw_json = api.get("/v1/people/me?personFields=#{fields}").body
 
     build_user(raw_json, access_token)
   end
@@ -65,7 +65,9 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
   end
 
   private def primary?(field)
-    json[field].each do |item|
+    field = json[field]?
+    return nil if field.nil?
+    field.each do |item|
       return item if item["metadata"]["primary"].as_bool?
     end
     nil
@@ -82,7 +84,7 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     name = primary("names")
 
     user = User.new(
-      "github",
+      "google",
       json["resourceName"].as_s,
       name["displayName"].as_s,
       raw_json,

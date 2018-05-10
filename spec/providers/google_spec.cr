@@ -23,7 +23,7 @@ describe MultiAuth::Provider::Google do
           })
       )
 
-      WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?requestMask.includeField=person.addresses,person.biographies,person.bragging_rights,person.cover_photos,person.email_addresses,person.im_clients,person.interests,person.names,person.nicknames,person.phone_numbers,person.photos,person.urls")
+      WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?personFields=addresses,biographies,bragging_rights,cover_photos,email_addresses,im_clients,interests,names,nicknames,phone_numbers,photos,urls")
              .to_return(body: File.read("spec/support/google.json"))
 
       user = MultiAuth.make("google", "/callback").user({"code" => "123"}).as(MultiAuth::User)
@@ -50,7 +50,7 @@ describe MultiAuth::Provider::Google do
             })
         )
 
-        WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?requestMask.includeField=person.addresses,person.biographies,person.bragging_rights,person.cover_photos,person.email_addresses,person.im_clients,person.interests,person.names,person.nicknames,person.phone_numbers,person.photos,person.urls")
+        WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?personFields=addresses,biographies,bragging_rights,cover_photos,email_addresses,im_clients,interests,names,nicknames,phone_numbers,photos,urls")
                .to_return(body: File.read("spec/support/google_api_disabled.json"))
 
         expect_raises(Exception) do
