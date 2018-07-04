@@ -1,10 +1,10 @@
 name: multi_auth
-version: 0.1.0
+version: 1.0.0
 
 authors:
   - Sergey Makridenkov <s@msa7.ru>
 
-crystal: 0.23.0
+crystal: 0.25.0
 
 license: MIT
 
