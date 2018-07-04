@@ -66,10 +66,12 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
 
   private def primary?(field)
     field = json[field]?
-    return nil if field.nil?
-    field.each do |item|
+    return unless field
+
+    field.as_a.each do |item|
       return item if item["metadata"]["primary"].as_bool?
     end
+
     nil
   end
 
@@ -101,7 +103,7 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     user.phone = primary("phoneNumbers")["canonicalForm"].as_s if primary?("phoneNumbers")
     user.description = primary("biographies")["value"].as_s if primary?("biographies")
 
-    json["urls"].each do |url|
+    json["urls"].as_a.each do |url|
       urls = {} of String => String
       urls[url["type"].as_s] = url["value"].as_s
 
