@@ -69,10 +69,9 @@ end
 
 
 ```crystal
-# config/app.cr
-class App
-  URL = "http://localhost:3000"
-end
+# config/watch.yml
+host: myapp.lvh.me
+port: 5000
 
 # config/multi_auth_handler.cr
 require "multi_auth"
@@ -82,11 +81,11 @@ class MultiAuthHandler
   MultiAuth.config("google", "googleClientID", "googleSecretKey")
 
   def self.authorize_uri(provider : String)
-    MultiAuth.make(provider, "#{App::URL}/oauth/#{provider}/callback").authorize_uri
+    MultiAuth.make(provider, "#{Lucky::RouteHelper.settings.base_uri}/oauth/#{provider}/callback").authorize_uri(scope: "email")
   end
 
   def self.user(provider : String, params : Enumerable({String, String}))
-    MultiAuth.make(provider, "#{App::URL}/oauth/#{provider}/callback")
+    MultiAuth.make(provider, "#{Lucky::RouteHelper.settings.base_uri}/oauth/#{provider}/callback").user(params)
   end
 end
 
@@ -101,7 +100,7 @@ end
 class OAuth::Handler::Callback < BrowserAction
   get "/oauth/:provider/callback" do
     user = MultiAuthHandler.user(provider, request.query_params)
-    render_text user.email
+    text user.email.to_s
   end
 end
 ```
