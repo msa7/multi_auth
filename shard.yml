@@ -4,11 +4,11 @@ version: 1.0.0
 authors:
   - Sergey Makridenkov <s@msa7.ru>
 
-crystal: 0.25.0
+crystal: 0.29.0
 
 license: MIT
 
 development_dependencies:
   webmock:
-    github: manastech/webmock.cr
-    branch: master
+    github: msa7/webmock.cr
+    branch: fix/before_request

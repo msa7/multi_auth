@@ -105,6 +105,29 @@ class OAuth::Handler::Callback < BrowserAction
 end
 ```
 
+## Development
+
+Install docker
+
+
+Setup everythings
+
+```
+make setup
+```
+
+Run specs
+
+```
+make t
+make t c=spec/providers/twitter_spec.cr
+```
+
+Run code linter
+```
+make l
+```
+
 ## Contributors
 
 - [Sergey Makridenkov](https://github.com/msa7) - creator, maintainer
