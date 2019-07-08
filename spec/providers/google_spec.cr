@@ -9,22 +9,22 @@ describe MultiAuth::Provider::Google do
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://www.googleapis.com/oauth2/v4/token")
-             .with(
-        body: "client_id=google_id&client_secret=google_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
-        headers: {"Accept" => "application/json", "Content-Length" => "111", "Host" => "www.googleapis.com", "Content-type" => "application/x-www-form-urlencoded"}
-      )
-             .to_return(
-        body: %({
+        .with(
+          body: "client_id=google_id&client_secret=google_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
+          headers: {"Accept" => "application/json", "Content-Length" => "111", "Host" => "www.googleapis.com", "Content-type" => "application/x-www-form-urlencoded"}
+        )
+        .to_return(
+          body: %({
             "access_token" : "1111",
             "token_type" : "Bearer",
             "expires_in" : 899,
             "refresh_token" : null,
             "scope" : "user"
           })
-      )
+        )
 
       WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?personFields=addresses,biographies,bragging_rights,cover_photos,email_addresses,im_clients,interests,names,nicknames,phone_numbers,photos,urls")
-             .to_return(body: File.read("spec/support/google.json"))
+        .to_return(body: File.read("spec/support/google.json"))
 
       user = MultiAuth.make("google", "/callback").user({"code" => "123"}).as(MultiAuth::User)
 
@@ -36,22 +36,22 @@ describe MultiAuth::Provider::Google do
     it "shows error" do
       WebMock.wrap do
         WebMock.stub(:post, "https://www.googleapis.com/oauth2/v4/token")
-               .with(
-          body: "client_id=google_id&client_secret=google_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
-          headers: {"Accept" => "application/json", "Content-Length" => "111", "Host" => "www.googleapis.com", "Content-type" => "application/x-www-form-urlencoded"}
-        )
-               .to_return(
-          body: %({
+          .with(
+            body: "client_id=google_id&client_secret=google_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
+            headers: {"Accept" => "application/json", "Content-Length" => "111", "Host" => "www.googleapis.com", "Content-type" => "application/x-www-form-urlencoded"}
+          )
+          .to_return(
+            body: %({
               "access_token" : "1111",
               "token_type" : "Bearer",
               "expires_in" : 899,
               "refresh_token" : null,
               "scope" : "user"
             })
-        )
+          )
 
         WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?personFields=addresses,biographies,bragging_rights,cover_photos,email_addresses,im_clients,interests,names,nicknames,phone_numbers,photos,urls")
-               .to_return(body: File.read("spec/support/google_api_disabled.json"))
+          .to_return(body: File.read("spec/support/google_api_disabled.json"))
 
         expect_raises(Exception) do
           MultiAuth.make("google", "/callback").user({"code" => "123"})

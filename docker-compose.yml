@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  app:
+    image: crystallang/crystal:0.29.0
+    working_dir: /app
+    environment:
+      EDA_ENV: ${MULTI_AUTH_ENV}
+    volumes:
+      - shards:/app/lib
+      - .:/app
+volumes:
+  shards:
