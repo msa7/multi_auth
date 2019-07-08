@@ -9,22 +9,22 @@ describe MultiAuth::Provider::Github do
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://github.com/login/oauth/access_token")
-             .with(
-        body: "client_id=github_id&client_secret=github_secret&redirect_uri=&grant_type=authorization_code&code=123",
-        headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"}
-      )
-             .to_return(
-        body: %({
+        .with(
+          body: "client_id=github_id&client_secret=github_secret&redirect_uri=&grant_type=authorization_code&code=123",
+          headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"}
+        )
+        .to_return(
+          body: %({
             "access_token" : "1111",
             "token_type" : "Bearer",
             "expires_in" : 899,
             "refresh_token" : null,
             "scope" : "user"
           })
-      )
+        )
 
       WebMock.stub(:get, "https://api.github.com/user")
-             .to_return(body: File.read("spec/support/github.json"))
+        .to_return(body: File.read("spec/support/github.json"))
 
       user = MultiAuth.make("github", "/callback").user({"code" => "123"}).as(MultiAuth::User)
 

@@ -11,26 +11,26 @@ describe MultiAuth::Provider::Facebook do
       WebMock
         .stub(:post, "https://graph.facebook.com/v2.9/oauth/access_token")
         .with(
-        body: "client_id=facebook_id&client_secret=facebook_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
-        headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"})
+          body: "client_id=facebook_id&client_secret=facebook_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
+          headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"})
         .to_return(
-        body: %({
+          body: %({
                 "access_token" : "1111",
                 "token_type" : "Bearer",
                 "expires_in" : 899,
                 "refresh_token" : null,
                 "scope" : "user"
               })
-      )
+        )
 
       WebMock
         .stub(:get, "https://graph.facebook.com/v2.9/me?fields=id,name,last_name,first_name,email,location,about,website")
         .to_return(
-        body: %({
+          body: %({
               "name" : "Sergey",
               "id" : "3333"
             })
-      )
+        )
 
       user = MultiAuth.make("facebook", "/callback").user({"code" => "123"}).as(MultiAuth::User)
 

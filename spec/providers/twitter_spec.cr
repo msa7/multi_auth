@@ -25,8 +25,9 @@ describe MultiAuth::Provider::Twitter do
 
   describe "#authorize_uri" do
     it "generates authorize uri" do
+      WebMock.allow_net_connect = true
       WebMock.stub(:post, "https://api.twitter.com/oauth/request_token")
-             .to_return(body: HTTP::Params.encode request_token_params)
+        .to_return(body: HTTP::Params.encode request_token_params)
       uri = MultiAuth.make("twitter", "/callback").authorize_uri
       uri.should eq "https://api.twitter.com/oauth/authorize?oauth_token=NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0&oauth_callback=%2Fcallback"
     end
@@ -35,10 +36,10 @@ describe MultiAuth::Provider::Twitter do
   describe "#fetch_tw_user" do
     it "successfully fetches user params" do
       WebMock.stub(:post, "https://api.twitter.com/oauth/access_token")
-             .to_return(body: HTTP::Params.encode request_token_params)
+        .to_return(body: HTTP::Params.encode request_token_params)
 
       WebMock.stub(:get, "https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true")
-             .to_return(body: verify_credentials_params.to_json)
+        .to_return(body: verify_credentials_params.to_json)
 
       user = MultiAuth.make("twitter", "/callback").user({"oauth_token" => "token", "oauth_verifier" => "verifier"})
 
