@@ -103,11 +103,13 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     user.phone = primary("phoneNumbers")["canonicalForm"].as_s if primary?("phoneNumbers")
     user.description = primary("biographies")["value"].as_s if primary?("biographies")
 
-    json["urls"].as_a.each do |url|
-      urls = {} of String => String
-      urls[url["type"].as_s] = url["value"].as_s
+    if json["urls"]?
+      json["urls"].as_a.each do |url|
+        urls = {} of String => String
+        urls[url["type"].as_s] = url["value"].as_s
 
-      user.urls = urls
+        user.urls = urls
+      end
     end
 
     user
