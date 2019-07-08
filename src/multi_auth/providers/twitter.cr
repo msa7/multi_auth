@@ -7,22 +7,24 @@ class MultiAuth::Provider::Twitter < MultiAuth::Provider
   def user(params : Hash(String, String))
     tw_user = fetch_tw_user(params["oauth_token"], params["oauth_verifier"])
 
-    User.new(
+    user = User.new(
       "twitter",
       tw_user.id,
       tw_user.name,
       tw_user.raw_json.to_s,
       tw_user.access_token.not_nil!
-    ).tap do |user|
-      user.email = tw_user.email
-      user.nickname = tw_user.screen_name
-      user.location = tw_user.location
-      user.description = tw_user.description
-      user.image = tw_user.profile_image_url
-      if url = tw_user.url
-        user.urls = {"twitter" => url}
-      end
+    )
+
+    user.email = tw_user.email
+    user.nickname = tw_user.screen_name
+    user.location = tw_user.location
+    user.description = tw_user.description
+    user.image = tw_user.profile_image_url
+    if url = tw_user.url
+      user.urls = {"twitter" => url}
     end
+
+    user
   end
 
   private class TwUser
@@ -42,7 +44,8 @@ class MultiAuth::Provider::Twitter < MultiAuth::Provider
   end
 
   private def fetch_tw_user(oauth_token, oauth_verifier)
-    request_token = OAuth::RequestToken.new oauth_token, ""
+    request_token = OAuth::RequestToken.new(oauth_token, "")
+
     access_token = consumer.get_access_token(request_token, oauth_verifier)
 
     client = HTTP::Client.new("api.twitter.com", tls: true)
