@@ -105,6 +105,61 @@ class OAuth::Handler::Callback < BrowserAction
 end
 ```
 
+### [Amber](https://github.com/amberframework/amber) integration example
+
+
+```crystal
+# config/initializers/multi_auth.cr
+require "multi_auth"
+
+MultiAuth.config("facebook", "facebookClientID", "facebookSecretKey")
+MultiAuth.config("google", "googleClientID", "googleSecretKey")
+
+# config/routes.cr
+
+routes :web do
+  ...
+  get "/multi_auth/:provider", MultiAuthController, :new
+  get "/multi_auth/:provider/callback", MultiAuthController, :callback
+end
+
+# src/controllers/multi_auth_controller.cr
+class MultiAuthController < ApplicationController
+  def new
+    redirect_to multi_auth.authorize_uri
+  end
+
+  def callback
+    multi_auth_user = multi_auth.user(request.query_params)
+
+    if user = User.find_by email: multi_auth_user.email
+      context.session["user_id"] = user.id
+    else
+      user = User.create!(
+        first_name: multi_auth_user.first_name,
+        last_name: multi_auth_user.last_name,
+        email: multi_auth_user.email
+      )
+      context.session["user_id"] = user.id
+    end
+
+    redirect_to "/"
+  end
+
+  def provider
+    params[:provider]
+  end
+
+  def redirect_uri
+    "#{Amber.settings.secrets["base_url"]}/multi_auth/#{provider}/callback"
+  end
+
+  def multi_auth
+    MultiAuth.make(provider, redirect_uri)
+  end
+end
+```
+
 ## Development
 
 Install docker
