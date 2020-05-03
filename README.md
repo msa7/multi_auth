@@ -116,7 +116,6 @@ MultiAuth.config("facebook", "facebookClientID", "facebookSecretKey")
 MultiAuth.config("google", "googleClientID", "googleSecretKey")
 
 # config/routes.cr
-
 routes :web do
   ...
   get "/multi_auth/:provider", MultiAuthController, :new

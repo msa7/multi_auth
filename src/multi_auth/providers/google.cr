@@ -105,11 +105,9 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
 
     if json["urls"]?
       urls = {} of String => String
-
       json["urls"].as_a.each do |url|
         urls[url["type"].as_s] = url["value"].as_s
       end
-
       user.urls = urls
     end
 
