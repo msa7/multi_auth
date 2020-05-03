@@ -132,17 +132,21 @@ class MultiAuthController < ApplicationController
     multi_auth_user = multi_auth.user(request.query_params)
 
     if user = User.find_by email: multi_auth_user.email
-      context.session["user_id"] = user.id
+      login user
     else
       user = User.create!(
         first_name: multi_auth_user.first_name,
         last_name: multi_auth_user.last_name,
         email: multi_auth_user.email
       )
-      context.session["user_id"] = user.id
+      login user
     end
 
     redirect_to "/"
+  end
+
+  def login(user)
+    context.session["user_id"] = user.id
   end
 
   def provider
