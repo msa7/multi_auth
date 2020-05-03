@@ -93,8 +93,8 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
       access_token
     )
 
-    user.first_name = name["givenName"].as_s?
-    user.last_name = name["familyName"].as_s?
+    user.first_name = name["givenName"].as_s? if name["givenName"]?
+    user.last_name = name["familyName"].as_s? if name["familyName"]?
 
     user.nickname = primary("nicknames")["value"].as_s if primary?("nicknames")
     user.image = primary("photos")["url"].as_s if primary?("photos")
