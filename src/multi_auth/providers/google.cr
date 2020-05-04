@@ -93,8 +93,8 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
       access_token
     )
 
-    user.first_name = name["givenName"].as_s?
-    user.last_name = name["familyName"].as_s?
+    user.first_name = name["givenName"].as_s? if name["givenName"]?
+    user.last_name = name["familyName"].as_s? if name["familyName"]?
 
     user.nickname = primary("nicknames")["value"].as_s if primary?("nicknames")
     user.image = primary("photos")["url"].as_s if primary?("photos")
@@ -104,12 +104,11 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     user.description = primary("biographies")["value"].as_s if primary?("biographies")
 
     if json["urls"]?
+      urls = {} of String => String
       json["urls"].as_a.each do |url|
-        urls = {} of String => String
         urls[url["type"].as_s] = url["value"].as_s
-
-        user.urls = urls
       end
+      user.urls = urls
     end
 
     user
