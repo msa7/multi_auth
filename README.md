@@ -125,7 +125,7 @@ end
 # src/controllers/multi_auth_controller.cr
 class MultiAuthController < ApplicationController
   def new
-    redirect_to multi_auth.authorize_uri
+    redirect_to multi_auth.authorize_uri(scope: "email")
   end
 
   def callback
