@@ -28,19 +28,21 @@ class MultiAuth::Provider::Twitter < MultiAuth::Provider
   end
 
   private class TwUser
+    include JSON::Serializable
+
     property raw_json : String?
     property access_token : OAuth::AccessToken?
 
-    JSON.mapping(
-      id: {type: String, converter: String::RawConverter},
-      name: String,
-      screen_name: String,
-      location: String?,
-      description: String?,
-      url: String?,
-      profile_image_url: String?,
-      email: String?
-    )
+    @[JSON::Field(converter: String::RawConverter)]
+    property id : String
+    
+    property name : String
+    property screen_name : String
+    property location : String?
+    property description : String?
+    property url : String?
+    property profile_image_url : String?
+    property email : String?
   end
 
   private def fetch_tw_user(oauth_token, oauth_verifier)
