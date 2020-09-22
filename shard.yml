@@ -4,7 +4,7 @@ version: 1.0.0
 authors:
   - Sergey Makridenkov <s@msa7.ru>
 
-crystal: 0.29.0
+crystal: 0.35.1
 
 license: MIT
 
