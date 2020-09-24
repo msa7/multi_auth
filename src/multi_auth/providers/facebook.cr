@@ -29,20 +29,20 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
   end
 
   private class FbUser
+    include JSON::Serializable
+
     property raw_json : String?
     property access_token : OAuth2::AccessToken?
     property picture_url : String?
 
-    JSON.mapping(
-      id: String,
-      name: String,
-      last_name: String?,
-      first_name: String?,
-      email: String?,
-      location: String?,
-      about: String?,
-      website: String?
-    )
+    property id : String
+    property name : String
+    property last_name : String?
+    property first_name : String?
+    property email : String?
+    property location : String?
+    property about : String?
+    property website : String?
   end
 
   private def fetch_fb_user(code)
@@ -75,7 +75,8 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
       key,
       secret,
       redirect_uri: redirect_uri,
-      token_uri: "/v2.9/oauth/access_token"
+      token_uri: "/v2.9/oauth/access_token",
+      auth_scheme: :request_body
     )
   end
 end

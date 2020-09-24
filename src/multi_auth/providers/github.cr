@@ -30,20 +30,22 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
   end
 
   private class GhUser
+    include JSON::Serializable
+
     property raw_json : String?
     property access_token : OAuth2::AccessToken?
 
-    JSON.mapping(
-      id: {type: String, converter: String::RawConverter},
-      name: String,
-      email: String?,
-      login: String,
-      location: String?,
-      bio: String?,
-      avatar_url: String?,
-      blog: String?,
-      html_url: String?
-    )
+    @[JSON::Field(converter: String::RawConverter)]
+    property id : String
+
+    property name : String
+    property email : String?
+    property login : String
+    property location : String?
+    property bio : String?
+    property avatar_url : String?
+    property blog : String?
+    property html_url : String?
   end
 
   private def fetch_gh_user(code)
@@ -65,7 +67,8 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
       key,
       secret,
       authorize_uri: "/login/oauth/authorize",
-      token_uri: "/login/oauth/access_token"
+      token_uri: "/login/oauth/access_token",
+      auth_scheme: :request_body
     )
   end
 end

@@ -36,12 +36,13 @@ class MultiAuth::Provider::Vk < MultiAuth::Provider
   end
 
   class VkTitle
-    JSON.mapping(
-      title: String
-    )
+    include JSON::Serializable
+    property title : String
   end
 
   class VkUser
+    include JSON::Serializable
+
     property raw_json : String?
     property access_token : OAuth2::AccessToken?
     property email : String?
@@ -51,25 +52,24 @@ class MultiAuth::Provider::Vk < MultiAuth::Provider
       "#{last_name} #{first_name}"
     end
 
-    JSON.mapping(
-      id: {type: String, converter: String::RawConverter},
-      last_name: String?,
-      first_name: String?,
-      site: String?,
-      city: VkTitle?,
-      country: VkTitle?,
-      domain: String?,
-      about: String?,
-      photo_max_orig: String?,
-      mobile_phone: String?,
-      home_phone: String?
-    )
+    @[JSON::Field(converter: String::RawConverter)]
+    property id : String
+
+    property last_name : String?
+    property first_name : String?
+    property site : String?
+    property city : VkTitle?
+    property country : VkTitle?
+    property domain : String?
+    property about : String?
+    property photo_max_orig : String?
+    property mobile_phone : String?
+    property home_phone : String?
   end
 
   class VkResponse
-    JSON.mapping(
-      response: Array(VkUser),
-    )
+    include JSON::Serializable
+    property response : Array(VkUser)
   end
 
   private def fetch_vk_user(code)
@@ -99,7 +99,8 @@ class MultiAuth::Provider::Vk < MultiAuth::Provider
       secret,
       redirect_uri: redirect_uri,
       authorize_uri: "/authorize",
-      token_uri: "/access_token"
+      token_uri: "/access_token",
+      auth_scheme: :request_body
     )
   end
 end

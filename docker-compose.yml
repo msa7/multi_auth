@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    image: crystallang/crystal:0.29.0
+    image: crystallang/crystal:0.35.1
     working_dir: /app
     environment:
       EDA_ENV: ${MULTI_AUTH_ENV}
