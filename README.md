@@ -7,7 +7,7 @@ MultiAuth is a library that standardizes multi-provider authentication for web a
 - Github.com
 - Facebook.com
 - Vk.com
-- Google.com, [setup google](https://github.com/msa7/multi_auth/blob/master/setup.md#google)
+- Google.com, [setup google](https://github.com/kefahi/multi_auth/blob/master/setup.md#google)
 - Twitter.com
 
 ## Installation
@@ -17,7 +17,7 @@ Add this to your application's `shard.yml`:
 ```yaml
 dependencies:
   multi_auth:
-    github: msa7/multi_auth
+    github: kefahi/multi_auth
 ```
 
 ## Usage
@@ -36,7 +36,7 @@ dependencies:
   user = multi_auth.user(params) # get signed in user
 ```
 
-MultiAuth build with no dependency, it can be used with any web framework. Information about signed in user described in User class here [src/multi_auth/user.cr](https://github.com/msa7/multi_auth/blob/master/src/multi_auth/user.cr). Supported providers [src/multi_auth/providers](https://github.com/msa7/multi_auth/blob/master/src/multi_auth/providers). I hope it easy to add new providers.
+MultiAuth build with no dependency, it can be used with any web framework. Information about signed in user described in User class here [src/multi_auth/user.cr](https://github.com/kefahi/multi_auth/blob/master/src/multi_auth/user.cr). Supported providers [src/multi_auth/providers](https://github.com/kefahi/multi_auth/blob/master/src/multi_auth/providers). I hope it easy to add new providers.
 
 ### [Kemal](http://kemalcr.com) integration example
 
@@ -187,6 +187,6 @@ make l
 ```
 
 ## Contributors
-
+- [Kefah Issa](https://github.com/kefahi) - added couple of changes
 - [Sergey Makridenkov](https://github.com/msa7) - creator, maintainer
 - [Vitalii Elenhaupt](https://github.com/veelenga) - contributor
