@@ -9,6 +9,7 @@ class MultiAuth::User
   getter access_token : OAuth::AccessToken | OAuth2::AccessToken
 
   property email : String?
+  property gender : String?
   property nickname : String?
   property first_name : String?
   property last_name : String?

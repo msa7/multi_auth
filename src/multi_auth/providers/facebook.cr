@@ -20,6 +20,8 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
     user.last_name = fb_user.last_name
     user.location = fb_user.location
     user.description = fb_user.about
+    user.image = fb_user.picture[:data][:url]
+    user.gender = fb_user.gender if fb_user.gender
 
     urls = {} of String => String
     urls["web"] = fb_user.website.as(String) if fb_user.website
@@ -34,7 +36,9 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
     property raw_json : String?
     property access_token : OAuth2::AccessToken?
     property picture_url : String?
+    property picture : NamedTuple( data: NamedTuple( url: String, height: Int64, width: Int64, is_silhouette: Bool))
 
+    property gender : String?
     property id : String
     property name : String
     property last_name : String?
@@ -50,7 +54,7 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
     api = HTTP::Client.new("graph.facebook.com", tls: true)
     access_token.authenticate(api)
 
-    raw_json = api.get("/v2.9/me?fields=id,name,last_name,first_name,email,location,about,website").body
+    raw_json = api.get("/v2.9/me?fields=gender,picture,id,name,last_name,first_name,email,location,about,website").body
 
     fb_user = FbUser.from_json(raw_json)
     fb_user.access_token = access_token
