@@ -58,6 +58,8 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
     gh_user = GhUser.from_json(raw_json)
     gh_user.access_token = access_token
     gh_user.raw_json = raw_json
+    raw_email_json = api.get("/user/emails").body
+    gh_user.email = JSON.parse(raw_email_json)[0]["email"].to_s
     gh_user
   end
 
