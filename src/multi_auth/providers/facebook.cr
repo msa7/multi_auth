@@ -21,7 +21,7 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
     user.location = fb_user.location
     user.description = fb_user.about
     user.image = fb_user.picture[:data][:url]
-    user.gender = fb_user.gender if fb_user.gender
+    user.gender = fb_user.gender
 
     urls = {} of String => String
     urls["web"] = fb_user.website.as(String) if fb_user.website
@@ -35,7 +35,6 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
 
     property raw_json : String?
     property access_token : OAuth2::AccessToken?
-    property picture_url : String?
     property picture : NamedTuple( data: NamedTuple( url: String, height: Int64, width: Int64, is_silhouette: Bool))
 
     property gender : String?
