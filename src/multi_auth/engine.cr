@@ -3,6 +3,7 @@ class MultiAuth::Engine
     provider_class = case provider
                      when "google"   then Provider::Google
                      when "github"   then Provider::Github
+                     when "gitlab"   then Provider::Gitlab
                      when "facebook" then Provider::Facebook
                      when "vk"       then Provider::Vk
                      when "twitter"  then Provider::Twitter
