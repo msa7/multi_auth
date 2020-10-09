@@ -35,7 +35,7 @@ class MultiAuth::Provider::Twitter < MultiAuth::Provider
 
     @[JSON::Field(converter: String::RawConverter)]
     property id : String
-    
+
     property name : String
     property screen_name : String
     property location : String?
