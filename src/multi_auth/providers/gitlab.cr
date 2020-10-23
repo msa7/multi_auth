@@ -8,11 +8,11 @@ class MultiAuth::Provider::Gitlab < MultiAuth::Provider
     gitlab_user = fetch_gitlab_user(params["code"])
 
     user = User.new(
-    "gitlab",
-    gitlab_user.id,
-    gitlab_user.name,
-    gitlab_user.raw_json.as(String),
-    gitlab_user.access_token.not_nil!
+      "gitlab",
+      gitlab_user.id,
+      gitlab_user.name,
+      gitlab_user.raw_json.as(String),
+      gitlab_user.access_token.not_nil!
     )
 
     user.email = gitlab_user.email
@@ -43,7 +43,6 @@ class MultiAuth::Provider::Gitlab < MultiAuth::Provider
     property bio : String?
     property location : String?
     property email : String?
-
   end
 
   private def fetch_gitlab_user(code)
