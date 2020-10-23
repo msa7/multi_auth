@@ -69,6 +69,7 @@ class MultiAuth::Provider::Gitlab < MultiAuth::Provider
       secret,
       authorize_uri: "/oauth/authorize",
       token_uri: "/oauth/token",
+      redirect_uri: redirect_uri,
       auth_scheme: :request_body
     )
   end
