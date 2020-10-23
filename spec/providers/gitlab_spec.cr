@@ -3,14 +3,14 @@ require "../spec_helper"
 describe MultiAuth::Provider::Gitlab do
   it "generates authorize_uri" do
     uri = MultiAuth.make("gitlab", "/callback").authorize_uri
-    uri.should eq("https://gitlab.com/oauth/authorize?client_id=gitlab_id&redirect_uri=&response_type=code&scope=")
+    uri.should eq("https://gitlab.com/oauth/authorize?client_id=gitlab_id&redirect_uri=%2Fcallback&response_type=code&scope=")
   end
 
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://gitlab.com/oauth/token")
         .with(
-          body: "client_id=gitlab_id&client_secret=gitlab_secret&redirect_uri=&grant_type=authorization_code&code=123",
+          body: "client_id=gitlab_id&client_secret=gitlab_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
           headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"}
         )
         .to_return(
