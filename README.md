@@ -1,6 +1,6 @@
 # MultiAuth
 
-[![Build Status](https://travis-ci.org/msa7/multi_auth.svg?branch=master)](https://travis-ci.org/msa7/multi_auth)
+![Build Status](https://github.com/msa7/multi_auth/workflows/CI/badge.svg)
 
 MultiAuth is a library that standardizes multi-provider authentication for web applications. Currently supported providers:
 
@@ -68,7 +68,6 @@ end
 
 ### [Lucky](https://github.com/luckyframework/lucky) integration example
 
-
 ```crystal
 # config/watch.yml
 host: myapp.lvh.me
@@ -107,7 +106,6 @@ end
 ```
 
 ### [Amber](https://github.com/amberframework/amber) integration example
-
 
 ```crystal
 # config/initializers/multi_auth.cr
@@ -168,7 +166,6 @@ end
 
 Install docker
 
-
 Setup everythings
 
 ```
@@ -183,6 +180,7 @@ make t c=spec/providers/twitter_spec.cr
 ```
 
 Run code linter
+
 ```
 make l
 ```
