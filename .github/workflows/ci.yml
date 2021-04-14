@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  schedule:
+    - cron: "0 3 * * MON"
+  workflow_dispatch:
+
+jobs:
+  LintAndTest:
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal_version:
+          - 0.35.1
+          - 0.36.1
+          - latest
+        experimental: [false]
+        include:
+          - crystal_version: nightly
+            experimental: true
+
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.experimental }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: oprypin/install-crystal@v1
+        with:
+          crystal: ${{matrix.crystal_version}}
+
+      - name: Check format
+        run: crystal tool format --check
+
+      - name: Set up Crystal cache
+        uses: actions/cache@v2
+        id: crystal-cache
+        with:
+          path: |
+            ~/.cache/crystal
+            lib
+          key: ${{ runner.os }}-crystal-${{ matrix.crystal_version }}-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-crystal-${{ matrix.crystal_version }}
+
+      - name: Install shards
+        if: steps.crystal-cache.outputs.cache-hit != 'true'
+        run: shards check || shards install --ignore-crystal-version
+
+      - name: Run tests
+        run: crystal spec
