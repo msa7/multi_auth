@@ -38,7 +38,7 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
     @[JSON::Field(converter: String::RawConverter)]
     property id : String
 
-    property name : String
+    property name : String?
     property email : String?
     property login : String
     property location : String?
