@@ -16,3 +16,7 @@ sh: ## shell into app container c="pwd"
 	$(RUN_APP) $(or $(c),bash)
 c: ## run console.cr
 	$(RUN_APP) crystal run src/console.cr
+update_dependency: ## update_dependency
+	docker-compose build --force-rm --no-cache --pull
+	$(RUN_APP) rm -rf /app/lib/*
+	$(RUN_APP) shards update

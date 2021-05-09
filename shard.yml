@@ -1,14 +1,14 @@
 name: multi_auth
-version: 1.0.0
+version: 1.1.1
 
 authors:
   - Sergey Makridenkov <s@msa7.ru>
 
-crystal: 0.35.1
+crystal: ">= 0.35.1, < 2.0.0"
 
 license: MIT
 
 development_dependencies:
   webmock:
-    github: msa7/webmock.cr
-    branch: fix/before_request
+    github: manastech/webmock.cr
+    version: ~> 0.14
