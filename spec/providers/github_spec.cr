@@ -32,7 +32,21 @@ describe MultiAuth::Provider::Github do
     end
   end
 
-  # it "fetch user public email when scope user:email" do
-  #   raise "23"
-  # end
+  it "fetch user public email when scope user:email", focus: true do
+    [
+      {"email" => "public@msa.im", "primary" => true, "verified" => true, "visibility" => "public"},
+      {"email" => "private@msa.im", "primary" => false, "verified" => true, "visibility" => null},
+    ]
+
+    WebMock.allow_net_connect = true
+    MultiAuth.config("github", ENV["GITHUB_KEY"], ENV["GITHUB_SECRET"])
+
+    multi_auth = MultiAuth.make("github", "https://webhook.site/4ac71fc0-592f-449a-a4b0-af63679f952c")
+
+    p multi_auth.authorize_uri
+
+    user = multi_auth.user({"code" => "bccef469b279f106920d"}).as(MultiAuth::User)
+    p user
+    # user.email.should eq("hi@msa7.ru")
+  end
 end

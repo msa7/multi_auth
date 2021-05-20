@@ -4,6 +4,8 @@ services:
   app:
     image: crystallang/crystal:latest
     working_dir: /app
+    env_file:
+      - .env
     environment:
       EDA_ENV: ${MULTI_AUTH_ENV}
     volumes:
