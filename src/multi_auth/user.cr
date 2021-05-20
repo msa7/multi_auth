@@ -4,7 +4,7 @@ class MultiAuth::User
 
   getter provider : String
   getter uid : String
-  getter name : String
+  getter name : String?
   getter raw_json : String
   getter access_token : OAuth::AccessToken | OAuth2::AccessToken
 
