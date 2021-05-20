@@ -1,6 +1,5 @@
 class MultiAuth::Provider::Gitlab < MultiAuth::Provider
-  def authorize_uri(scope = nil)
-    scope ||= ""
+  def authorize_uri
     client.get_authorize_uri(scope)
   end
 
@@ -25,6 +24,10 @@ class MultiAuth::Provider::Gitlab < MultiAuth::Provider
     urls["gitlab"] = gitlab_user.web_url.as(String) if gitlab_user.web_url
 
     user
+  end
+
+  protected def build_scope(scope)
+    scope || ""
   end
 
   private class GitlabUser

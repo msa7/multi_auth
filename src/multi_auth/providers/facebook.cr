@@ -1,6 +1,5 @@
 class MultiAuth::Provider::Facebook < MultiAuth::Provider
-  def authorize_uri(scope = nil)
-    scope ||= "email"
+  def authorize_uri
     client.get_authorize_uri(scope)
   end
 
@@ -26,6 +25,10 @@ class MultiAuth::Provider::Facebook < MultiAuth::Provider
     user.urls = urls unless urls.empty?
 
     user
+  end
+
+  protected def build_scope(scope)
+    scope || "email"
   end
 
   private class FbUser

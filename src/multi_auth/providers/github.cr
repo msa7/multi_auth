@@ -1,6 +1,5 @@
 class MultiAuth::Provider::Github < MultiAuth::Provider
-  def authorize_uri(scope = nil)
-    scope ||= "user:email"
+  def authorize_uri
     client.get_authorize_uri(scope)
   end
 
@@ -27,6 +26,10 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
     user.urls = urls unless urls.empty?
 
     user
+  end
+
+  protected def build_scope(scope)
+    scope || "user:email"
   end
 
   private class GhUser
@@ -58,6 +61,12 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
     gh_user = GhUser.from_json(raw_json)
     gh_user.access_token = access_token
     gh_user.raw_json = raw_json
+
+    # if scope.included?("user:email")
+    #   raw_email_json = api.get("/user/emails").body
+    #   gh_user.email = JSON.parse(raw_email_json)[0]["email"].to_s
+    # end
+
     gh_user
   end
 

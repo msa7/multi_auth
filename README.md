@@ -48,6 +48,7 @@ MultiAuth build with no dependency, it can be used with any web framework. Infor
 ```crystal
 MultiAuth.config("facebook", "facebookClientID", "facebookSecretKey")
 MultiAuth.config("google", "googleClientID", "googleSecretKey")
+MultiAuth.config("github", "key", "secret", "scope")
 
 def self.multi_auth(env)
   provider = env.params.url["provider"]
@@ -78,10 +79,10 @@ require "multi_auth"
 
 class MultiAuthHandler
   MultiAuth.config("facebook", "facebookClientID", "facebookSecretKey")
-  MultiAuth.config("google", "googleClientID", "googleSecretKey")
+  MultiAuth.config("google", "googleClientID", "googleSecretKey", scope: "email")
 
   def self.authorize_uri(provider : String)
-    MultiAuth.make(provider, "#{Lucky::RouteHelper.settings.base_uri}/oauth/#{provider}/callback").authorize_uri(scope: "email")
+    MultiAuth.make(provider, "#{Lucky::RouteHelper.settings.base_uri}/oauth/#{provider}/callback").authorize_uri
   end
 
   def self.user(provider : String, params : Enumerable({String, String}))

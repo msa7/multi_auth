@@ -1,5 +1,5 @@
 class MultiAuth::Engine
-  def initialize(provider : String, redirect_uri : String)
+  def initialize(provider : String, redirect_uri : String, scope : String? = nil)
     provider_class = case provider
                      when "google"   then Provider::Google
                      when "github"   then Provider::Github
@@ -12,13 +12,13 @@ class MultiAuth::Engine
                      end
 
     key, secret = MultiAuth.configuration[provider]
-    @provider = provider_class.new(redirect_uri, key, secret)
+    @provider = provider_class.new(redirect_uri, key, secret, scope)
   end
 
   getter provider : Provider
 
-  def authorize_uri(scope = nil)
-    provider.authorize_uri(scope)
+  def authorize_uri
+    provider.authorize_uri
   end
 
   def user(params : Enumerable({String, String})) : User

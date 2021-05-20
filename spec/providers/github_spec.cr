@@ -31,4 +31,8 @@ describe MultiAuth::Provider::Github do
       user.email.should eq("hi@msa7.ru")
     end
   end
+
+  # it "fetch user public email when scope user:email" do
+  #   raise "23"
+  # end
 end

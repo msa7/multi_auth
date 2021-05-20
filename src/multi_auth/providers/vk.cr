@@ -1,7 +1,6 @@
 class MultiAuth::Provider::Vk < MultiAuth::Provider
-  def authorize_uri(scope = nil)
-    @scope = "email"
-    client.get_authorize_uri(@scope)
+  def authorize_uri
+    client.get_authorize_uri(scope)
   end
 
   def user(params : Hash(String, String))
@@ -33,6 +32,10 @@ class MultiAuth::Provider::Vk < MultiAuth::Provider
     user.urls = urls unless urls.empty?
 
     user
+  end
+
+  protected def build_scope(scope)
+    scope || "email"
   end
 
   class VkTitle

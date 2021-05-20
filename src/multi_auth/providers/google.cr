@@ -1,15 +1,13 @@
 class MultiAuth::Provider::Google < MultiAuth::Provider
-  def authorize_uri(scope = nil)
-    defaults = [
-      "https://www.googleapis.com/auth/user.emails.read",
-      "https://www.googleapis.com/auth/user.phonenumbers.read",
-      "https://www.googleapis.com/auth/user.addresses.read",
-      "https://www.googleapis.com/auth/plus.login",
-      "https://www.googleapis.com/auth/contacts.readonly",
-    ]
+  DEFAULT_SCOPE = [
+    "https://www.googleapis.com/auth/user.emails.read",
+    "https://www.googleapis.com/auth/user.phonenumbers.read",
+    "https://www.googleapis.com/auth/user.addresses.read",
+    "https://www.googleapis.com/auth/plus.login",
+    "https://www.googleapis.com/auth/contacts.readonly",
+  ].join(" ")
 
-    scope ||= defaults.join(" ")
-
+  def authorize_uri
     client = OAuth2::Client.new(
       "accounts.google.com",
       key,
@@ -57,6 +55,10 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     raw_json = api.get("/v1/people/me?personFields=#{fields}").body
 
     build_user(raw_json, access_token)
+  end
+
+  protected def build_scope(scope)
+    scope || DEFAULT_SCOPE
   end
 
   private def primary(field)
