@@ -10,6 +10,7 @@ MultiAuth is a library that standardizes multi-provider authentication for web a
 - Vk.com
 - Google.com, [setup google](https://github.com/msa7/multi_auth/blob/master/setup.md#google)
 - Twitter.com
+- Restream.io
 
 ## Installation
 
