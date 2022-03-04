@@ -35,15 +35,10 @@ class MultiAuth::Provider::Discord < MultiAuth::Provider
     request_token = OAuth::RequestToken.new(oauth_token, "")
     access_token = consumer.get_access_token(request_token, oauth_verifier)
 
-    pp! request_token
-    pp! access_token
-
     client = HTTP::Client.new("discord.com", tls: true)
     access_token.authenticate(client, key, secret)
 
     raw_json = client.get("/oauth2/authorize").body
-
-    pp! raw_json
 
     DiscordUser.from_json(raw_json).tap do |user|
       user.access_token = access_token
