@@ -6,17 +6,22 @@ describe MultiAuth::Provider::Restream do
     uri.should start_with("https://api.restream.io/login?client_id=restream_id&redirect_uri=%2Fcallback&response_type=code&state=")
   end
 
+  it "generates authorize_uri with state query param" do
+    uri = MultiAuth.make("restream", "/callback").authorize_uri(state: "random_state_value")
+    uri.should start_with("https://api.restream.io/login?client_id=restream_id&redirect_uri=%2Fcallback&response_type=code&state=random_state_value")
+  end
+
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://api.restream.io/oauth/token")
         .with(
           body: "redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
           headers: {
-            "Accept" => "application/json",
-            "Content-type" => "application/x-www-form-urlencoded",
-            "Authorization" => "Basic cmVzdHJlYW1faWQ6cmVzdHJlYW1fc2VjcmV0",
+            "Accept"         => "application/json",
+            "Content-type"   => "application/x-www-form-urlencoded",
+            "Authorization"  => "Basic cmVzdHJlYW1faWQ6cmVzdHJlYW1fc2VjcmV0",
             "Content-Length" => "63",
-            "Host" => "api.restream.io"
+            "Host"           => "api.restream.io",
           }
         )
         .to_return(

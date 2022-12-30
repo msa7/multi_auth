@@ -1,5 +1,5 @@
 class MultiAuth::Provider::Discord < MultiAuth::Provider
-  def authorize_uri(scope = nil)
+  def authorize_uri(scope = nil, state = nil)
     defaults = [
       "identify",
     ]
@@ -14,7 +14,7 @@ class MultiAuth::Provider::Discord < MultiAuth::Provider
       redirect_uri: redirect_uri
     )
 
-    client.get_authorize_uri(scope)
+    client.get_authorize_uri(scope, state)
   end
 
   private class DiscordUser

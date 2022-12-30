@@ -6,6 +6,11 @@ describe MultiAuth::Provider::Gitlab do
     uri.should eq("https://gitlab.com/oauth/authorize?client_id=gitlab_id&redirect_uri=%2Fcallback&response_type=code&scope=")
   end
 
+  it "generates authorize_uri with state query param" do
+    uri = MultiAuth.make("gitlab", "/callback").authorize_uri(state: "random_state_value")
+    uri.should eq("https://gitlab.com/oauth/authorize?client_id=gitlab_id&redirect_uri=%2Fcallback&response_type=code&scope=&state=random_state_value")
+  end
+
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://gitlab.com/oauth/token")

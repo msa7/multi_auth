@@ -1,5 +1,5 @@
 class MultiAuth::Provider::Twitter < MultiAuth::Provider
-  def authorize_uri(scope = nil)
+  def authorize_uri(scope = nil, state = nil)
     request_token = consumer.get_request_token(redirect_uri)
     consumer.get_authorize_uri(request_token, redirect_uri)
   end

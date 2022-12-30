@@ -6,6 +6,11 @@ describe MultiAuth::Provider::Github do
     uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=&response_type=code&scope=user%3Aemail")
   end
 
+  it "generates authorize_uri with state query param" do
+    uri = MultiAuth.make("github", "/callback").authorize_uri(state: "random_state_value")
+    uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=&response_type=code&scope=user%3Aemail&state=random_state_value")
+  end
+
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://github.com/login/oauth/access_token")

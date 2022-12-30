@@ -6,6 +6,11 @@ describe MultiAuth::Provider::Google do
     uri.should eq("https://accounts.google.com/o/oauth2/v2/auth?client_id=google_id&redirect_uri=%2Fcallback&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.phonenumbers.read+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.addresses.read+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fplus.login+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcontacts.readonly")
   end
 
+  it "generates authorize_uri with state query param" do
+    uri = MultiAuth.make("google", "/callback").authorize_uri(state: "random_state_value")
+    uri.should eq("https://accounts.google.com/o/oauth2/v2/auth?client_id=google_id&redirect_uri=%2Fcallback&response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.emails.read+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.phonenumbers.read+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuser.addresses.read+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fplus.login+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcontacts.readonly&state=random_state_value")
+  end
+
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://www.googleapis.com/oauth2/v4/token")

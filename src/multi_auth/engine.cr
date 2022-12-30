@@ -19,8 +19,8 @@ class MultiAuth::Engine
 
   getter provider : Provider
 
-  def authorize_uri(scope = nil)
-    provider.authorize_uri(scope)
+  def authorize_uri(scope = nil, state = nil)
+    provider.authorize_uri(scope, state)
   end
 
   def user(params : Enumerable({String, String})) : User

@@ -6,6 +6,11 @@ describe MultiAuth::Provider::Discord do
     uri.should start_with("https://discord.com/api/oauth2/authorize?client_id=discord_id&redirect_uri=%2Fcallback&response_type=code&scope=identify")
   end
 
+  it "generates authorize_uri with state query param" do
+    uri = MultiAuth.make("discord", "/callback").authorize_uri(state: "random_state_value")
+    uri.should start_with("https://discord.com/api/oauth2/authorize?client_id=discord_id&redirect_uri=%2Fcallback&response_type=code&scope=identify&state=random_state_value")
+  end
+
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://discord.com/api/v8/oauth2/token")
