@@ -1,7 +1,7 @@
 class MultiAuth::Provider::Gitlab < MultiAuth::Provider
-  def authorize_uri(scope = nil)
+  def authorize_uri(scope = nil, state = nil)
     scope ||= ""
-    client.get_authorize_uri(scope)
+    client.get_authorize_uri(scope, state)
   end
 
   def user(params : Hash(String, String))

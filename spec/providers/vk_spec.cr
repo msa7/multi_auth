@@ -6,6 +6,11 @@ describe MultiAuth::Provider::Vk do
     uri.should eq("https://oauth.vk.com/authorize?client_id=vk_id&redirect_uri=%2Fcallback&response_type=code&scope=email")
   end
 
+  it "generates authorize_uri with state query param" do
+    uri = MultiAuth.make("vk", "/callback").authorize_uri(state: "random_state_value")
+    uri.should eq("https://oauth.vk.com/authorize?client_id=vk_id&redirect_uri=%2Fcallback&response_type=code&scope=email&state=random_state_value")
+  end
+
   it "fetch user" do
     WebMock.wrap do
       WebMock
