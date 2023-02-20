@@ -163,6 +163,86 @@ class MultiAuthController < ApplicationController
 end
 ```
 
+### [Marten](https://github.com/martenframework/marten) integration example
+
+```crystal
+# config/initializers/multi_auth.cr
+# ----
+
+require "multi_auth"
+
+MultiAuth.config("github", "<github_client_id>", "<github_secret_key>")
+
+
+# config/routes.cr
+# ----
+
+Marten.routes.draw do
+  path "/oauth/<provider:string>", OAuthInitiateHandler, name: "oauth_initiate"
+  path "/oauth/<provider:string>/callback", OAuthCallbackHandler, name: "oauth_callback"
+end
+
+
+# src/handlers/concerns/with_oauth.cr
+# ----
+
+module WithOAuth
+  def multi_auth
+    MultiAuth.make(provider, redirect_uri)
+  end
+
+  private def provider
+    params["provider"].to_s
+  end
+
+  private def redirect_uri
+    "#{request.scheme}://#{request.host}#{reverse("oauth_callback", provider: provider)}"
+  end
+end
+
+
+# src/handlers/oauth_initiate_handler.cr
+# ----
+
+require "./concerns/**"
+
+class OAuthInitiateHandler < Marten::Handler
+  include WithOAuth
+
+  def get
+    redirect multi_auth.authorize_uri(scope: "email")
+  end
+end
+
+
+# src/handlers/oauth_initiate_callback.cr
+# ----
+
+require "./concerns/**"
+
+class OAuthCallbackHandler < Marten::Handler
+  include WithOAuth
+
+  def get
+    user_params = Hash(String, String).new.tap do |params|
+      request.query_params.each { |k, v| params[k] = v.last }
+    end
+    
+    multi_auth_user = multi_auth.user(user_params)
+
+    unless user = Auth::User.get(email: multi_auth_user.email)
+      user = Auth::User.create!(email: multi_auth_user.email) do |new_user|
+        new_user.set_unusable_password
+      end
+    end
+
+    MartenAuth.sign_in(request, user)
+
+    redirect "/"
+  end
+end
+```
+
 ## Development
 
 Install docker
