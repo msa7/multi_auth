@@ -1,0 +1,435 @@
+{
+  "resourceName": "people/107107280077356483059",
+  "etag": "%EhIBEAUXGQkUIiUuAgoNDAsDGAY=",
+  "metadata": {
+    "sources": [
+      {
+        "type": "CONTACT",
+        "id": "c8734cc8cdfacf3",
+        "etag": "#TW9Lu5USlf4="
+      },
+      {
+        "type": "CONTACT",
+        "id": "15ea8fcc8a89f4de",
+        "etag": "#qpol+eC6bLA="
+      },
+      {
+        "type": "CONTACT",
+        "id": "93",
+        "etag": "#538/l64v70s="
+      },
+      {
+        "type": "CONTACT",
+        "id": "7f57a1b18d6a6aaa",
+        "etag": "#PC96tiMIRRk="
+      },
+      {
+        "type": "CONTACT",
+        "id": "95",
+        "etag": "#0NOQmzfvzLw="
+      },
+      {
+        "type": "PROFILE",
+        "id": "107107280077356483059",
+        "etag": "#4eZz2/IuMFw=",
+        "profileMetadata": {
+          "objectType": "PERSON"
+        }
+      }
+    ],
+    "objectType": "PERSON"
+  },
+  "locales": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "ACCOUNT",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "en"
+    }
+  ],
+  "names": [],
+  "nicknames": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "SergXIIIth"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "15ea8fcc8a89f4de"
+        }
+      },
+      "value": "Sergey"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "93"
+        }
+      },
+      "value": "Sergey"
+    }
+  ],
+  "coverPhotos": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "url": "https://lh3.googleusercontent.com/c5dqxl-2uHZ82ah9p7yxrVF1ZssrJNSV_15Nu0TUZwzCWqmtoLxCUJgEzLGtxsrJ6-v6R6rKU_-FYm881TTiMCJ_=s1600",
+      "default": true
+    }
+  ],
+  "photos": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "url": "https://lh4.googleusercontent.com/-AD281PNjUXU/AAAAAAAAAAI/AAAAAAAALYQ/3WAUiy8jbHE/s100/photo.jpg"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "url": "https://lh4.googleusercontent.com/-CXdSX83lhoc/V-4T6R40_VI/AAAAAAAAAAA/T5JE4AgDpgU/s100/photo.jpg"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "15ea8fcc8a89f4de"
+        }
+      },
+      "url": "https://lh5.googleusercontent.com/-0KHl0_KdiM4/V-4TSCrGNhI/AAAAAAAAAAA/8oI0NMAJz1c/s100/photo.jpg"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "93"
+        }
+      },
+      "url": "https://lh3.googleusercontent.com/-ehsvcWTPv6Q/V-4TXpPyIRI/AAAAAAAAAAA/az30Nif1z_o/s100/photo.jpg"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "7f57a1b18d6a6aaa"
+        }
+      },
+      "url": "https://lh6.googleusercontent.com/-xiYsuxbe4n4/V-4TRQn2AlI/AAAAAAAAAAA/Vl5kcSh4ajQ/s100/photo.jpg"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "95"
+        }
+      },
+      "url": "https://lh4.googleusercontent.com/-DV151mfKFes/V-4TQJidLSI/AAAAAAAAAAA/YH54nPKjiyo/s100/photo.jpg"
+    }
+  ],
+  "addresses": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "formattedValue": "Konětopy č.p. 17\n440 01 Pnětluky\nokres Louny\nkraj Ústecký",
+      "type": "other",
+      "formattedType": "Other",
+      "streetAddress": "Konětopy č.p. 17",
+      "city": "Pnětluky",
+      "region": "okres Louny\nkraj Ústecký",
+      "postalCode": "440 01"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "formattedValue": "187351\nРоссия, Ленинградская обл., Кировский район, село Путилово, ул. Братьев Пожарских, д.21, кв.10",
+      "type": "home",
+      "formattedType": "Home",
+      "streetAddress": "187351\nРоссия, Ленинградская обл., Кировский район, село Путилово, ул. Братьев Пожарских, д.21, кв.10"
+    }
+  ],
+  "emailAddresses": [
+    {
+      "metadata": {
+        "primary": true,
+        "verified": true,
+        "source": {
+          "type": "ACCOUNT",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "smkrbr@gmail.com"
+    },
+    {
+      "metadata": {
+        "verified": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "smkrbr@gmail.com",
+      "type": "home",
+      "formattedType": "Home"
+    },
+    {
+      "metadata": {
+        "verified": true,
+        "source": {
+          "type": "ACCOUNT",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "smkrbr@mail.ru"
+    },
+    {
+      "metadata": {
+        "verified": true,
+        "source": {
+          "type": "ACCOUNT",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "sergey@makridenkov.com"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "smkrbr@gmail.com",
+      "type": "home",
+      "formattedType": "Home"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "makridenkov@gmail.com",
+      "type": "work",
+      "formattedType": "Work"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "sergey@makridenkov.com",
+      "type": "work",
+      "formattedType": "Work"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "smkrbr@free.kindle.com",
+      "type": "Kindle",
+      "formattedType": "Kindle"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "s@msa7.ru",
+      "type": "other",
+      "formattedType": "Other"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "15ea8fcc8a89f4de"
+        }
+      },
+      "value": "smkrbr@gmail.com",
+      "type": "home",
+      "formattedType": "Home"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "93"
+        }
+      },
+      "value": "smkrbr@gmail.com",
+      "type": "other",
+      "formattedType": "Other"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "7f57a1b18d6a6aaa"
+        }
+      },
+      "value": "sergey@makridenkov.com"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "95"
+        }
+      },
+      "value": "smkrbr@mail.ru"
+    }
+  ],
+  "phoneNumbers": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "+7 953 354-06-92",
+      "canonicalForm": "+79533540692",
+      "type": "work",
+      "formattedType": "Work"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "+420775357809",
+      "canonicalForm": "+420775357809",
+      "type": "mobile",
+      "formattedType": "Mobile"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "+79051621936",
+      "canonicalForm": "+79051621936",
+      "type": "home",
+      "formattedType": "Home"
+    },
+    {
+      "metadata": {
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "+420774668079",
+      "type": "mobile",
+      "formattedType": "Mobile"
+    }
+  ],
+  "biographies": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "CONTACT",
+          "id": "c8734cc8cdfacf3"
+        }
+      },
+      "value": "2600987645 / 2010 fio income\n\n\nmBank mKonto \nČíslo účtu 670100-2209502078/6210 \nČíslo účtu ve formátu IBAN CZ61 6210 6701 0022 0950 2078 \nČíslo BIC BREXCZPP \n\nIC 01311131\nDIC CZ8409272630",
+      "contentType": "TEXT_PLAIN"
+    }
+  ],
+  "urls": [
+    {
+      "metadata": {
+        "primary": true,
+        "verified": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "https://plus.google.com/107107280077356483059",
+      "type": "profile",
+      "formattedType": "Profile"
+    }
+  ],
+  "organizations": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "type": "work",
+      "formattedType": "Work",
+      "endDate": {
+        "year": 2011,
+        "month": 1,
+        "day": 1
+      },
+      "current": true,
+      "title": "Programmer, Web developer"
+    }
+  ],
+  "occupations": [
+    {
+      "metadata": {
+        "primary": true,
+        "source": {
+          "type": "PROFILE",
+          "id": "107107280077356483059"
+        }
+      },
+      "value": "Programmer, Web developer"
+    }
+  ]
+}
