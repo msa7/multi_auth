@@ -61,7 +61,7 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
 
   private def primary(field)
     primary = primary?(field)
-    raise "No primary in #{json[field]}" unless primary
+    raise "No primary in field #{field}" unless primary
     primary
   end
 
@@ -84,12 +84,18 @@ class MultiAuth::Provider::Google < MultiAuth::Provider
     @json = JSON.parse(raw_json)
     raise json["error"]["message"].as_s if json["error"]?
 
-    name = primary("names")
+    name = if primary?("names")
+      primary("names")
+    else
+      JSON::Any.new({} of String => JSON::Any)
+    end
+
+    display_name = name["displayName"]?.to_s
 
     user = User.new(
       "google",
       json["resourceName"].as_s,
-      name["displayName"].as_s,
+      display_name,
       raw_json,
       access_token
     )
