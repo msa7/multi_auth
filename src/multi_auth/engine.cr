@@ -17,6 +17,9 @@ class MultiAuth::Engine
     @provider = provider_class.new(redirect_uri, key, secret)
   end
 
+  def initialize(@provider)
+  end
+
   getter provider : Provider
 
   def authorize_uri(scope = nil, state = nil)
