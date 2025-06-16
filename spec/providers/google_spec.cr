@@ -58,7 +58,7 @@ describe MultiAuth::Provider::Google do
         WebMock.stub(:get, "https://people.googleapis.com/v1/people/me?personFields=addresses,biographies,bragging_rights,cover_photos,email_addresses,im_clients,interests,names,nicknames,phone_numbers,photos,urls")
           .to_return(body: File.read("spec/support/google_api_disabled.json"))
 
-        expect_raises(Exception) do
+        expect_raises(MultiAuth::Exception) do
           MultiAuth.make("google", "/callback").user({"code" => "123"})
         end
       end

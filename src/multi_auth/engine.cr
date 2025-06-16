@@ -10,7 +10,7 @@ class MultiAuth::Engine
                      when "restream" then Provider::Restream
                      when "discord"  then Provider::Discord
                      else
-                       raise "Provider #{provider} not implemented"
+                       raise MultiAuth::Exception.new("Provider #{provider} not implemented")
                      end
 
     key, secret = MultiAuth.configuration[provider]

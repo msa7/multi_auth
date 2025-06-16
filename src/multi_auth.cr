@@ -3,6 +3,9 @@ require "oauth2"
 require "./multi_auth/**"
 
 module MultiAuth
+  class Exception < Exception
+  end
+
   @@configuration = Hash(String, Array(String)).new
 
   def self.make(provider, redirect_uri)
