@@ -71,6 +71,7 @@ class MultiAuth::Provider::Github < MultiAuth::Provider
       secret,
       authorize_uri: "/login/oauth/authorize",
       token_uri: "/login/oauth/access_token",
+      redirect_uri: redirect_uri,
       auth_scheme: :request_body
     )
   end

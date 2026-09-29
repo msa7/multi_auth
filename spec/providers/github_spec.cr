@@ -3,19 +3,24 @@ require "../spec_helper"
 describe MultiAuth::Provider::Github do
   it "generates authorize_uri" do
     uri = MultiAuth.make("github", "/callback").authorize_uri
-    uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=&response_type=code&scope=user%3Aemail")
+    uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=%2Fcallback&response_type=code&scope=user%3Aemail")
   end
 
   it "generates authorize_uri with state query param" do
     uri = MultiAuth.make("github", "/callback").authorize_uri(state: "random_state_value")
-    uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=&response_type=code&scope=user%3Aemail&state=random_state_value")
+    uri.should eq("https://github.com/login/oauth/authorize?client_id=github_id&redirect_uri=%2Fcallback&response_type=code&scope=user%3Aemail&state=random_state_value")
+  end
+
+  it "uses the requested callback host" do
+    uri = MultiAuth.make("github", "https://blog.example.com/callback").authorize_uri
+    URI.parse(uri).query_params["redirect_uri"].should eq("https://blog.example.com/callback")
   end
 
   it "fetch user" do
     WebMock.wrap do
       WebMock.stub(:post, "https://github.com/login/oauth/access_token")
         .with(
-          body: "client_id=github_id&client_secret=github_secret&redirect_uri=&grant_type=authorization_code&code=123",
+          body: "client_id=github_id&client_secret=github_secret&redirect_uri=%2Fcallback&grant_type=authorization_code&code=123",
           headers: {"Accept" => "application/json", "Content-type" => "application/x-www-form-urlencoded"}
         )
         .to_return(
